@@ -6,12 +6,6 @@
 			if(extConfig.appid){
 				this.$config.appId = extConfig.appid;
 			}
-			let userinfo = uni.getStorageSync('userinfo');
-			if (userinfo == '') {
-				uni.reLaunch({
-					url: '/pages/Login/Login'
-				});
-			}
 		},
 		onShow: function() {
 			console.log('App Show')

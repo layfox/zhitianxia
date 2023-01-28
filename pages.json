@@ -10,12 +10,28 @@
 			}
 		},
 		{
-			"path": "pages/Login/Login",//默认首页
+			"path": "pages/Login/Login",
 			"style": {
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleNView": false
 				}
+			}
+		},
+		{
+			"path": "pages/Login/Forget",
+			"style": {
+				"navigationBarTitleText": "密码重置",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#02459c"
+			}
+		},
+		{
+			"path": "pages/Login/Register",
+			"style": {
+				"navigationBarTitleText": "账号注册",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#02459c"
 			}
 		}
     ],

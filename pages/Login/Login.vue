@@ -6,24 +6,28 @@
 		<view>
 			<view class="top-bg">
 				<view class="logo-box">
-					<image class="logo-img" src="/static/login/logo@2x.png" mode=""></image>
+					<image class="logo-img" src="/static/shilu-login/logo.png" mode=""></image>
 				</view>
 			</view>
 			
 			<view class="form-box">
 				<form @submit="formSubmit">
 					<view class="uni-form-item">
-						<image src="../../static/login/user@2x.png" mode="aspectFit" class="icon"></image>
+						<image src="/static/shilu-login/4.png" mode="aspectFit" class="icon"></image>
 						<input class="uni-input" name="account" v-model="account" placeholder="请输入登录账号"
 							placeholder-class="input-pl" />
 					</view>
 					<view class="uni-form-item">
-						<image src="/static/login/password@2x.png" mode="aspectFit" class="icon"></image>
+						<image src="/static/shilu-login/2.png" mode="aspectFit" class="icon"></image>
 						<input class="uni-input" name="password" v-model="password" placeholder="请输入登录密码"
 							placeholder-class="input-pl" />
 					</view>
 					<view class="uni-btn-v">
 						<button style="margin-top: 60upx;" form-type="submit" class="submit">登录</button>
+					</view>
+					<view class="btn-box">
+						<view class="btn-item" @tap="forget">忘记密码</view>
+						<view class="btn-item" @tap="register">注册新用户</view>
 					</view>
 				</form>
 			</view>
@@ -63,6 +67,16 @@
 					});
 				}
 			},
+			forget() {
+				uni.navigateTo({
+					url: '/pages/Login/Forget'
+				})
+			},
+			register() {
+				uni.navigateTo({
+					url: '/pages/Login/Register'
+				})
+			}
 		}
 	}
 </script>
@@ -76,7 +90,7 @@
 	.top-bg{
 		height: 456upx;
 		width: 100%;
-		background: url('../../static/login/bg@2x.png') no-repeat;
+		background: url('@/static/shilu-login/bg.png') no-repeat;
 		background-size: 100% 100%;
 		position: relative;
 		.logo-box{
@@ -277,5 +291,23 @@
 		font-family: HarmonyOS Sans SC;
 		font-weight: 400;
 		color: #FFFFFF;
+	}
+	
+	.btn-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 48upx;
+	}
+	
+	.btn-item {
+		line-height: 32upx;
+		font-size: 28upx;
+		color: #333;
+		padding: 0 24upx;
+		
+		&:first-child {
+			border-right: 1upx solid #333;
+		}
 	}
 </style>
