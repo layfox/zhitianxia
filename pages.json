@@ -1,0 +1,57 @@
+{
+	"pages": [
+		{
+			"path": "pages/Index/Index",//默认首页
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/Login/Login",//默认首页
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "正在载入",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F5F6FA"
+	},
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#00c657",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/Index/Index",
+				"iconPath": "static/icon/yzy_sy.png",
+				"selectedIconPath": "static/icon/yzy_sys.png",
+				"text": "首页"
+			}
+		]
+	},
+	"easycom": {
+	  "autoscan": true,
+	  "custom": {
+			"com-(.*)":"@/components/common/$1.vue",
+			"show-(.*)":"@/components/show/$1.vue",
+			"countdown-(.*)":"@/components/countdown/$1.vue",
+			"sub-(.*)":"@/components/sub/$1.vue",
+			"upload-(.*)":"@/components/upload/$1.vue",
+			"vipcard-(.*)":"@/components/vipcard/$1.vue",
+			"dialog-(.*)":"@/components/dialog/$1.vue",
+			"select-(.*)":"@/components/select/$1.vue",
+			"home-(.*)":"@/pages/client/components/home/$1.vue",
+			"order-(.*)":"@/pages/client/components/order/$1.vue"
+			
+	  }
+	}
+}
