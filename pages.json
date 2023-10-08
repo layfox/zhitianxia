@@ -10,6 +10,24 @@
 			}
 		},
 		{
+			"path": "pages/Detail/Detail",//默认首页
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/Personal/Personal",//个人中心
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/Login/Login",
 			"style": {
 				"navigationStyle": "custom",
@@ -27,6 +45,14 @@
 			}
 		},
 		{
+			"path": "pages/Login/Reset",
+			"style": {
+				"navigationBarTitleText": "密码修改",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#02459c"
+			}
+		},
+		{
 			"path": "pages/Login/Register",
 			"style": {
 				"navigationBarTitleText": "账号注册",
@@ -39,18 +65,26 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "正在载入",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#F5F6FA"
+		"backgroundColor": "#F5F6FA",
+		"pageOrientation": "auto"
 	},
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#00c657",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/Index/Index",
 				"iconPath": "static/icon/yzy_sy.png",
 				"selectedIconPath": "static/icon/yzy_sys.png",
 				"text": "首页"
+			},
+			{
+				"pagePath": "pages/Personal/Personal",
+				"iconPath": "static/icon/yzy_wd.png",
+				"selectedIconPath": "static/icon/yzy_wds.png",
+				"text": "我的"
 			}
 		]
 	},

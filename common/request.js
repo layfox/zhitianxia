@@ -16,6 +16,8 @@ export default{
 		options.method = options.method || this.config.method;
 		options.dataType = options.dataType || this.config.dataType;
 		options.url = this.config.baseUrl+options.url;
+		console.log(options)
+		options.data = options.data || {}
 		// TODO：token增加等操作
 		if (options.token) {
 			options.data.token = uni.getStorageSync("userinfo").token;
@@ -25,7 +27,7 @@ export default{
 		// #ifdef APP-PLUS
 		var version=plus.runtime.version
 		// #endif
-		options.data.version=version
+		// options.data.version=version
 		return uni.request(options).then(res => {
 			if(res[1].data.msg=='version10001'){
 				uni.showModal({

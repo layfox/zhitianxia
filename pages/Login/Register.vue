@@ -5,41 +5,50 @@
     </view>
 
     <view class="list">
+		<view class="list-call">
+		  <image class="img" src="/static/shilu-login/4.png"></image>
+		  <input class="sl-input" v-model="username" placeholder="请输入注册账号" />
+		</view>
+		<view class="list-call">
+		  <image class="img" src="/static/shilu-login/4.png"></image>
+		  <input class="sl-input" v-model="nickname" placeholder="请输入昵称,非必填" />
+		</view>
       <view class="list-call">
         <image class="img" src="/static/shilu-login/1.png"></image>
         <input class="sl-input" v-model="phone" type="number" maxlength="11" placeholder="手机号" />
       </view>
       <view class="list-call">
         <image class="img" src="/static/shilu-login/2.png"></image>
-        <input class="sl-input" v-model="password" type="text" maxlength="32" placeholder="登录密码" :password="!showPassword" />
-        <image class="img" :src="showPassword?'/static/shilu-login/op.png':'/static/shilu-login/cl.png'" @tap="display"></image>
+        <input class="sl-input" v-model="password" type="text" maxlength="32" placeholder="登录密码" password />
       </view>
-      <view class="list-call">
-        <image class="img" src="/static/shilu-login/3.png"></image>
-        <input class="sl-input" v-model="code" type="number" maxlength="4" placeholder="验证码" />
-        <view class="yzm" :class="{ yzms: second>0 }" @tap="getcode">{{yanzhengma}}</view>
-      </view>
-      <view class="list-call">
+	  <view class="list-call">
+	    <image class="img" src="/static/shilu-login/2.png"></image>
+	    <input class="sl-input" v-model="rpassword" type="text" maxlength="32" placeholder="确认密码" password />
+	  </view>
+      <!--  -->
+      <!-- <view class="list-call">
         <image class="img" src="/static/shilu-login/4.png"></image>
         <input class="sl-input" v-model="invitation" type="text" maxlength="12" placeholder="邀请码 可不填写" />
-      </view>
+      </view> -->
 
     </view>
 
     <view class="button-login" hover-class="button-hover" @tap="bindLogin">
-      <text style="font-size: 40upx;">注册</text>
+      <text style="font-size: 40upx;">注册账号</text>
     </view>
   </view>
 </template>
 
 <script>
   var _this, js;
+  import {
+  	access
+  } from '@/api/request.js'
   export default {
     onLoad(e) {
 		if(e.uid){
 			this.invitation=e.uid
 		}
-		this.getList();
     },
     onUnload() {
       clearInterval(js)
@@ -47,8 +56,11 @@
     },
     data() {
       return {
+		username: '',
         phone: '',
         password: '',
+		nickname: '',
+		rpassword: '',
         code: '',
         invitation: '',
         agreement: true,
@@ -123,13 +135,22 @@
 		}
       },
       bindLogin() {
-        if (this.agreement == false) {
-          uni.showToast({
-            icon: 'none',
-            title: '请先阅读《软件用户协议》'
-          });
-          return;
-        }
+		// const usernameReg = /^[a-zA-Z0-9]{4,16}$/
+		// const psdReg = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*? ]).*$/
+		if (!this.username) {
+			uni.showToast({
+			  icon: 'none',
+			  title: '登录账号不能为空'
+			});
+			return;
+		}
+		// if (!usernameReg.test(this.username)) {
+		// 	uni.showToast({
+		// 	  icon: 'none',
+		// 	  title: '登录账号必须是4-16位数字和字母组成'
+		// 	});
+		// 	return;
+		// }
         if (this.phone.length != 11) {
           uni.showToast({
             icon: 'none',
@@ -140,75 +161,60 @@
         if (this.password.length < 6) {
           uni.showToast({
             icon: 'none',
-            title: '密码不正确'
+            title: '密码不得少于六位'
           });
           return;
         }
-        if (this.code.length != 4) {
-          uni.showToast({
-            icon: 'none',
-            title: '验证码不正确'
-          });
-          return;
-        }
-		let yzmss = uni.getStorageSync('yzmss');
-		if(this.code*1!=yzmss*1){
-			uni.showToast({ title: '短信验证码错误',icon:"none" });
-			return false;
+		// if (!psdReg.test(this.password)) {
+		// 	uni.showToast({
+		// 	  icon: 'none',
+		// 	  title: '密码只能是字母、数字和特殊字符'
+		// 	});
+		// 	return;
+		// }
+		if (this.password != this.rpassword) {
+			uni.showToast({
+			  icon: 'none',
+			  title: '二次密码不一致'
+			});
+			return;
 		}
+        // if (this.code.length != 4) {
+        //   uni.showToast({
+        //     icon: 'none',
+        //     title: '验证码不正确'
+        //   });
+        //   return;
+        // }
+		// let yzmss = uni.getStorageSync('yzmss');
+		// if(this.code*1!=yzmss*1){
+		// 	uni.showToast({ title: '短信验证码错误',icon:"none" });
+		// 	return false;
+		// }
 		this.zc();
       },
 	  async zc(){
 	  	let _this=this;
-	  	let data = {'mobile':this.phone,'username':this.phone,'password':this.password,'pid':this.invitation};
-	  	if(this.openid){
-	  		data.openid=this.openid
-	  		data.nickName=this.nickName
-	  		data.avatarUrl=this.avatarUrl
-	  	}
-	  	let [err,res] =await this.$httpas.post('/api/user/reg',data);
-	  	if (!this.$httpas.errorCheck(err,res)) return;
-	  	
-	  	if(res.data.code === 1){
-	  		uni.showModal({
-	  			title: '',
-	  			content: res.data.msg,
-	  			showCancel: false,
-	  			confirmText: "确定",
-	  			success: function (res) {
-	  				if (res.confirm) {
-	  					uni.navigateBack();
-	  				} else if (res.cancel) {
-	  					
-	  				}
-	  			}
-	  		});
-	  	}else{
-			uni.showToast({ title: res.data.msg,icon:"none" });
-	  	}
-	  },
-	  getList() {
-	  	let data = {};
-	  	var limit=15;
-	  	data.limit=limit
-	  	data.ishot=2
-	  	uni.request({
-	  		url: this.configs.webUrl+'/api/video/lists',
-	  		data: data,
-	  		success: data => {
-	  			//console.log(data.data)
-	  			uni.setStorage({//缓存配置信息
-	  				key: 'config',  
-	  				data: data.data.config
+	  	let data = {'phone':this.phone,'username':this.username,'password':this.$Md5(this.password), nickname: this.nickname};
+	  	access({
+	  		url: '/api/admin/register',
+	  		method: 'post',
+	  		param: data
+	  	}, res => {
+			console.log(res)
+	  		if (res.code === 200) {
+	  			uni.navigateTo({
+	  				url: '/pages/Login/Login'
 	  			})
-	  			if(uni.getStorageSync("config").iskq){
-	  				this.iskq=uni.getStorageSync("config").iskq;
-	  			}
-	  		},
-	  		fail: (data, code) => {
-	  		}
-	  	});
-	  },
+	  		} else {
+				uni.showToast({
+				  icon: 'none',
+				  title: res.msg
+				});
+			}
+	  	}, function() {
+	  	}, true)
+	  }
     }
   }
 </script>

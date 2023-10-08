@@ -1,5 +1,5 @@
 {
-    "name" : "天下事",
+    "name" : "晓天下",
     "appid" : "__UNI__8B37D39",
     "description" : "",
     "versionName" : "1.0.0",
@@ -15,6 +15,7 @@
             "autoclose" : true,
             "delay" : 0
         },
+		"screenOrientation": ["portrait-primary","portrait-secondary","landscape-primary","landscape-secondary"],
         "modules" : {
             "Push" : {},
             "VideoPlayer" : {},
@@ -47,7 +48,9 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             "sdkConfigs" : {
                 "ad" : {},
                 "push" : {}

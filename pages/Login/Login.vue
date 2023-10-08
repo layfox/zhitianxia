@@ -19,7 +19,7 @@
 					</view>
 					<view class="uni-form-item">
 						<image src="/static/shilu-login/2.png" mode="aspectFit" class="icon"></image>
-						<input class="uni-input" name="password" v-model="password" placeholder="请输入登录密码"
+						<input class="uni-input" password name="password" v-model="password" placeholder="请输入登录密码"
 							placeholder-class="input-pl" />
 					</view>
 					<view class="uni-btn-v">
@@ -36,6 +36,9 @@
 </template>
 
 <script>
+	import {
+		access
+	} from '@/api/request.js'
 	export default {
 		data() {
 			return {
@@ -52,20 +55,42 @@
 		methods: {
 			formSubmit: function(e) {
 				var that = this
-				if (!formdata.account) {
+				if (!this.account) {
 					return uni.showToast({
 						title: '请输入登录账号',
 						icon: 'none',
 						duration: 1000
 					});
 				}
-				if (!formdata.password) {
+				if (!this.password) {
 					return uni.showToast({
 						title: '请输入登录密码',
 						icon: 'none',
 						duration: 1000
 					});
 				}
+				access({
+					url: '/api/admin/login',
+					method: 'post',
+					param: {
+						username: this.account,
+						password: this.$Md5(this.password)
+					}
+				}, res => {
+					if (res.code === 200) {
+						const data = res.data;
+						uni.setStorageSync('userInfo', data)
+						uni.switchTab({
+							url: '/pages/Index/Index'
+						})
+					} else {
+						uni.showToast({
+						  icon: 'none',
+						  title: res.msg
+						});
+					}
+				}, function() {
+				}, true)
 			},
 			forget() {
 				uni.navigateTo({

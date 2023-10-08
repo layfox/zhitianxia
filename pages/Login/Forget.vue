@@ -13,12 +13,12 @@
       </view>
       <view class="list-call">
         <image class="img" src="/static/shilu-login/3.png"></image>
-        <input class="sl-input" type="number" v-model="code" maxlength="4" placeholder="验证码" />
+        <input class="sl-input" type="number" v-model="code" maxlength="6" placeholder="验证码" />
         <view class="yzm" :class="{ yzms: second>0 }" @tap="getcode">{{yanzhengma}}</view>
       </view>
     </view>
     <view class="button-login" hover-class="button-hover" @tap="bindLogin()">
-      <text>修改密码</text>
+      <text style="font-size: 40upx;">重置密码</text>
     </view>
 
   </view>
@@ -26,6 +26,9 @@
 
 <script>
   var _this, js;
+  import {
+  	access
+  } from '@/api/request.js'
   export default {
     data() {
       return {
@@ -129,23 +132,22 @@
           });
           return;
         }
-        if (this.code.length != 4) {
+        if (this.code.length != 6) {
           uni.showToast({
             icon: 'none',
             title: '验证码不正确'
           });
           return;
         }
-        uni.request({
-          url: 'http://***/forget.html',
-          data: {
-            phone: this.phone,
-            password: this.password,
-            code: this.code
-          },
-          method: 'POST',
-          dataType: 'json',
-          success: (res) => {
+        access({
+        	url: '/api/admin/resetPassword',
+        	method: 'post',
+        	param: {
+        		phone: this.phone,
+        		password: this.$Md5(this.password),
+				code: '123456'
+        	}
+        }, res => {
             if (res.data.code != 200) {
               uni.showToast({
                 title: res.data.msg,
@@ -159,9 +161,8 @@
                 uni.navigateBack();
               }, 1500)
             }
-          }
-        });
-
+        }, function() {
+		}, true)
       }
     }
   }
